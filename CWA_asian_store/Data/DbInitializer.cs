@@ -12,8 +12,9 @@ namespace CWA_asian_store.Data
             {
                 this.modelBuilder = modelBuilder;
             }
+   
 
-            public void Seed()
+        public void Seed()
             {
                 // Додаємо продукти
                 modelBuilder.Entity<Product>().HasData(

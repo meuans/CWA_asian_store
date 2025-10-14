@@ -16,14 +16,19 @@ builder.Services.AddDbContext<AsianFoodDbContext>(options => options.UseSqlServe
 builder.Services.AddScoped<IProductService, ProductService>();
 
 // Додаємо контролери
-builder.Services.AddControllers();
+//builder.Services.AddControllers();
+builder.Services.AddControllersWithViews();
+
 
 var app = builder.Build();
+
 
 // Додаємо middleware
 app.UseMiddleware<RequestLogging>();
 
-// Маршрутизація до контролерів
-app.MapControllers();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Store}/{action=Index}/{id?}");
+
 
 app.Run();

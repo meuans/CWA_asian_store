@@ -1,0 +1,80 @@
+﻿@model IEnumerable<CWA_asian_store.Entity.Model.Product>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Asian Food Store</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #fdf6ec;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #d35400;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8c471;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fdf2e9;
+        }
+    </style>
+</head>
+<body>
+    <h1>🍱 Азійський магазин</h1>
+
+
+
+
+
+
+    <a href="/Store/Create" style="display:inline-block; background:#d35400; color:white; padding:10px 15px; border-radius:5px; text-decoration:none;">
+        ➕ Додати товар
+    </a>
+    <br />
+    <br />
+
+
+
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>Назва</th>
+                <th>Опис</th>
+                <th>Категорія</th>
+                <th>Ціна (грн)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.Description</td>
+                    <td>@product.Category</td>
+                    <td>@product.Price</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

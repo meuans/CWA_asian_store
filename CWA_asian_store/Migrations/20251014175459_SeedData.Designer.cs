@@ -4,6 +4,7 @@ using CWA_asian_store.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CWA_asian_store.Migrations
 {
     [DbContext(typeof(AsianFoodDbContext))]
-    partial class AsianFoodDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251014175459_SeedData")]
+    partial class SeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,22 +48,6 @@ namespace CWA_asian_store.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Address = "м. Київ, вул. Хрещатик, 10",
-                            Email = "anna@example.com",
-                            FullName = "Анна Іваненко"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Address = "м. Львів, вул. Шевченка, 25",
-                            Email = "oleg@example.com",
-                            FullName = "Олег Петров"
-                        });
                 });
 
             modelBuilder.Entity("CWA_asian_store.Entity.Model.Order", b =>
@@ -78,30 +65,13 @@ namespace CWA_asian_store.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Total")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Orders");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(2025, 10, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CustomerId = 1,
-                            Total = 480m
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedAt = new DateTime(2025, 10, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CustomerId = 2,
-                            Total = 350m
-                        });
                 });
 
             modelBuilder.Entity("CWA_asian_store.Entity.Model.OrderItem", b =>
@@ -116,8 +86,7 @@ namespace CWA_asian_store.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -132,32 +101,6 @@ namespace CWA_asian_store.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("OrderItems");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            OrderId = 1,
-                            Price = 180m,
-                            ProductId = 1,
-                            Quantity = 2
-                        },
-                        new
-                        {
-                            Id = 2,
-                            OrderId = 1,
-                            Price = 120m,
-                            ProductId = 2,
-                            Quantity = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            OrderId = 2,
-                            Price = 350m,
-                            ProductId = 4,
-                            Quantity = 1
-                        });
                 });
 
             modelBuilder.Entity("CWA_asian_store.Entity.Model.Product", b =>
@@ -181,46 +124,11 @@ namespace CWA_asian_store.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Category = "Японська кухня",
-                            Description = "Японський суп з локшиною",
-                            Name = "Рамен",
-                            Price = 180m
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Category = "Корейська кухня",
-                            Description = "Корейська гостра капуста",
-                            Name = "Кімчі",
-                            Price = 120m
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Category = "Тайська кухня",
-                            Description = "Тайська локшина з куркою",
-                            Name = "Пад Тай",
-                            Price = 210m
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Category = "Японська кухня",
-                            Description = "Асорті ролів та суші",
-                            Name = "Суші-сет",
-                            Price = 350m
-                        });
                 });
 
             modelBuilder.Entity("CWA_asian_store.Entity.Model.Order", b =>

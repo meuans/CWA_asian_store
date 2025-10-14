@@ -13,7 +13,30 @@ namespace CWA_asian_store.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Decimal precision
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Price)
+                .HasPrecision(10, 2); // до 99999999.99
+
+            modelBuilder.Entity<OrderItem>()
+                .Property(oi => oi.Price)
+                .HasPrecision(10, 2);
+
+            modelBuilder.Entity<Order>()
+                .Property(o => o.Total)
+                .HasPrecision(10, 2);
+
+            // Виклик seed-даних
+             new DbInitializer(modelBuilder).Seed();
+        }
+
     }
 }
+
 
 
