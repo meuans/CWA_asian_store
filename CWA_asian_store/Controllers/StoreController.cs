@@ -33,10 +33,14 @@ namespace CWA_asian_store.Controllers
         // Приймає дані з форми
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [HttpPost]
         public async Task<IActionResult> Create(Product product)
         {
+            Console.WriteLine($"[DEBUG] Name={product.Name}, Desc={product.Description}, Category={product.Category}, Price={product.Price}");
+
             if (!ModelState.IsValid)
             {
+                Console.WriteLine("[DEBUG] ModelState INVALID");
                 return View(product);
             }
 
