@@ -18,7 +18,7 @@ namespace CWA_asian_store.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Decimal precision
+            
             modelBuilder.Entity<Product>()
                 .Property(p => p.Price)
                 .HasPrecision(10, 2); // до 99999999.99

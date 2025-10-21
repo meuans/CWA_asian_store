@@ -6,16 +6,16 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Беремо connection string з appsettings.json
+
 string connection = builder.Configuration.GetConnectionString("DefaultConnection")!;
 
-// Додаємо EF Core з SQL Server
+// Додаю EF Core з SQL Server
 builder.Services.AddDbContext<AsianFoodDbContext>(options => options.UseSqlServer(connection));
 
-// Реєструємо сервіси
+// Реєструю сервіси
 builder.Services.AddScoped<IProductService, ProductService>();
 
-// Додаємо контролери
+// Додаю контролер
 //builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
 
@@ -23,7 +23,7 @@ builder.Services.AddControllersWithViews();
 var app = builder.Build();
 
 
-// Додаємо middleware
+// Додаю middleware
 app.UseMiddleware<RequestLogging>();
 
 app.MapControllerRoute(

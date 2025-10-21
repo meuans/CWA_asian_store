@@ -26,5 +26,16 @@ namespace CWA_asian_store.Services
             _db.Products.Add(product);
             await _db.SaveChangesAsync();
         }
+
+        public async Task DeleteAsync(int id)
+        {
+            var product = await _db.Products.FindAsync(id);
+            if (product != null)
+            {
+                _db.Products.Remove(product);
+                await _db.SaveChangesAsync();
+            }
+        }
+
     }
 }

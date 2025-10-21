@@ -16,7 +16,7 @@ namespace CWA_asian_store.Controllers
             _productService = productService;
         }
 
-        // Показує всі товари
+        // Отримує всі продукти через сервіс і повертає View для показу списку
         public async Task<IActionResult> Index()
         {
             var products = await _productService.GetAllAsync();
@@ -33,7 +33,6 @@ namespace CWA_asian_store.Controllers
         // Приймає дані з форми
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [HttpPost]
         public async Task<IActionResult> Create(Product product)
         {
             Console.WriteLine($"[DEBUG] Name={product.Name}, Desc={product.Description}, Category={product.Category}, Price={product.Price}");
@@ -48,7 +47,12 @@ namespace CWA_asian_store.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _productService.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
 
 
     }
