@@ -90,6 +90,61 @@
             <a href="/Store/Create" class="btn-add">➕ Додати товар</a>
         </div>
 
+
+        <form method="get" asp-action="Index" style="text-align: center; margin-bottom: 25px;">
+            <div style="
+        display: inline-flex;
+        align-items: center;
+        border: 2px solid #e67e22;
+        border-radius: 8px;
+        padding: 5px 10px;
+        background: #fff3e0;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    ">
+                <input type="text" name="search" value="@ViewBag.Search"
+                       placeholder="🔍 Введіть назву товару..."
+                       style="
+                   border: none;
+                   outline: none;
+                   background: transparent;
+                   font-size: 16px;
+                   width: 250px;
+                   padding: 5px;
+               " />
+
+                <button type="submit"
+                        style="
+                    background: #e67e22;
+                    color: white;
+                    border: none;
+                    padding: 8px 16px;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-weight: bold;
+                    transition: background 0.3s;
+                ">
+                    🔎 Шукати
+                </button>
+            </div>
+
+            @* Кнопка для повернення до всіх товарів *@
+            @if (!string.IsNullOrEmpty(ViewBag.Search))
+            {
+                <a href="/Store/Index"
+                   style="
+                   margin-left: 15px;
+                   color: #d35400;
+                   text-decoration: none;
+                   font-weight: bold;
+               ">
+                    ← Повернутись до всіх товарів
+                </a>
+            }
+        </form>
+
+
+
+
         <table>
             <thead>
                 <tr>

@@ -17,11 +17,24 @@ namespace CWA_asian_store.Controllers
         }
 
         // Отримує всі продукти через сервіс і повертає View для показу списку
-        public async Task<IActionResult> Index()
+  
+        public async Task<IActionResult> Index(string? search)
         {
             var products = await _productService.GetAllAsync();
+
+            // Якщо є рядок пошуку — фільтруємо товари
+            if (!string.IsNullOrEmpty(search))
+            {
+                products = products
+                    .Where(p => p.Name.Contains(search, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
+            ViewBag.Search = search; // щоб зберігати значення в полі пошуку
+
             return View(products);
         }
+
 
         // Відображає форму для додавання товару
         [HttpGet]
@@ -51,6 +64,27 @@ namespace CWA_asian_store.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _productService.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var product = await _productService.GetByIdAsync(id);
+            if (product == null)
+                return NotFound();
+
+            return View(product);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Product product)
+        {
+            if (!ModelState.IsValid)
+                return View(product);
+
+            await _productService.UpdateAsync(product);
             return RedirectToAction(nameof(Index));
         }
 
