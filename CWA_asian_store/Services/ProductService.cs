@@ -33,6 +33,9 @@ namespace CWA_asian_store.Services
             await _db.SaveChangesAsync();
         }
 
+      
+
+
         public async Task DeleteAsync(int id)
         {
             var product = await _db.Products.FindAsync(id);

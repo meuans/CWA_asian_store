@@ -72,20 +72,13 @@ namespace CWA_asian_store.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Delete(int id)
-        {
-            await _productService.DeleteAsync(id);
-            return RedirectToAction(nameof(Index));
-        }
+
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             var product = await _productService.GetByIdAsync(id);
-            if (product == null)
-                return NotFound();
-
+            if (product == null) return NotFound();
             return View(product);
         }
 
@@ -99,6 +92,19 @@ namespace CWA_asian_store.Controllers
             await _productService.UpdateAsync(product);
             return RedirectToAction(nameof(Index));
         }
+
+
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _productService.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
+
+  
 
 
     }

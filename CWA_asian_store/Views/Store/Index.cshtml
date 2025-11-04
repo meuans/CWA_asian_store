@@ -161,6 +161,7 @@
 
 
 
+
         </form>
 
 
@@ -186,6 +187,14 @@
                         <td>@product.Category</td>
                         <td>@product.Price</td>
                         <td>
+
+                            <!-- Кнопка Редагувати -->
+                            <a asp-action="Edit" asp-route-id="@product.Id"
+                               style="background:#3498db; color:white; padding:5px 10px; border-radius:6px; text-decoration:none; margin-right:5px;">
+                                ✏️ Редагувати
+                            </a>
+
+                            <!-- Форма Видалити -->
                             <form asp-action="Delete" method="post" style="display:inline;">
                                 <input type="hidden" name="id" value="@product.Id" />
                                 <button type="submit" style="background:#e74c3c; color:white; border:none; padding:5px 10px; border-radius:6px; cursor:pointer;"

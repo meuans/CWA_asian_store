@@ -1,0 +1,128 @@
+﻿@model CWA_asian_store.Entity.Model.Product
+
+@{
+    ViewData["Title"] = "Редагування товару";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f8ede3, #fde2d2);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .edit-container {
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 400px;
+            max-width: 90%;
+        }
+
+        h2 {
+            text-align: center;
+            color: #d35400;
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+            input:focus, textarea:focus {
+                border-color: #d35400;
+                outline: none;
+                box-shadow: 0 0 5px rgba(211,84,0,0.4);
+            }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #d35400;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+            button:hover {
+                background: #e67e22;
+            }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 10px;
+            text-align: center;
+            width: 100%;
+            padding: 10px;
+            color: #d35400;
+            border: 2px solid #d35400;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+            .btn-back:hover {
+                background: #d35400;
+                color: white;
+            }
+    </style>
+</head>
+<body>
+    <div class="edit-container">
+        <h2>✏️ Редагувати товар</h2>
+
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <label asp-for="Name">Назва</label>
+            <input asp-for="Name" placeholder="Введіть назву товару" />
+
+            <label asp-for="Description">Опис</label>
+            <textarea asp-for="Description" rows="4" placeholder="Введіть опис товару"></textarea>
+
+            <label asp-for="Category">Категорія</label>
+            <input asp-for="Category" placeholder="Наприклад: Суші, Рамен" />
+
+            <label asp-for="Price">Ціна</label>
+            <input asp-for="Price" type="number" step="0.01" placeholder="Введіть ціну" />
+
+            <button type="submit">💾 Зберегти зміни</button>
+        </form>
+
+        <a asp-action="Index" class="btn-back">↩️ Повернутися до списку</a>
+    </div>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+</body>
+</html>
