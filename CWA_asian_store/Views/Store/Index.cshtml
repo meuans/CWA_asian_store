@@ -90,7 +90,6 @@
             <a href="/Store/Create" class="btn-add">➕ Додати товар</a>
         </div>
 
-
         <form method="get" asp-action="Index" style="text-align: center; margin-bottom: 25px;">
             <div style="
         display: inline-flex;
@@ -127,20 +126,43 @@
                 </button>
             </div>
 
-            @* Кнопка для повернення до всіх товарів *@
+            @* Кнопка повернення *@
             @if (!string.IsNullOrEmpty(ViewBag.Search))
             {
                 <a href="/Store/Index"
-                   style="
-                   margin-left: 15px;
-                   color: #d35400;
-                   text-decoration: none;
-                   font-weight: bold;
-               ">
+                   style="margin-left: 15px; color: #d35400; text-decoration: none; font-weight: bold;">
                     ← Повернутись до всіх товарів
                 </a>
             }
+
+            @* Кнопка сортування *@
+            @{
+                string nextSortOrder = ViewBag.SortOrder == "asc" ? "desc" : "asc";
+                string icon = ViewBag.SortOrder == "asc" ? "⬇️" : "⬆️";
+            }
+
+            <a href="@Url.Action("Index", new { search = ViewBag.Search, sortOrder = nextSortOrder })"
+               style="
+       margin-left: 20px;
+       background: #f39c12;
+       color: white;
+       padding: 8px 14px;
+       border-radius: 6px;
+       text-decoration: none;
+       font-weight: bold;
+       box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+       transition: background 0.3s;
+       display: inline-block;
+       width: 160px;
+       text-align: center;
+   ">
+                Сортувати @icon
+            </a>
+
+
+
         </form>
+
 
 
 

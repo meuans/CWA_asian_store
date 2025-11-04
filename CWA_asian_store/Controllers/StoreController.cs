@@ -1,6 +1,7 @@
 ﻿using CWA_asian_store.Entity.Model;
 using CWA_asian_store.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 
 
 namespace CWA_asian_store.Controllers
@@ -18,7 +19,7 @@ namespace CWA_asian_store.Controllers
 
         // Отримує всі продукти через сервіс і повертає View для показу списку
   
-        public async Task<IActionResult> Index(string? search)
+        public async Task<IActionResult> Index(string? search, string? sortOrder)
         {
             var products = await _productService.GetAllAsync();
 
@@ -30,7 +31,18 @@ namespace CWA_asian_store.Controllers
                     .ToList();
             }
 
+            switch (sortOrder)
+            {
+                case "asc":
+                    products = products.OrderBy(p => p.Price).ToList();
+                    break;
+                case "desc":
+                    products = products.OrderByDescending(p => p.Price).ToList();
+                    break;
+            }
+
             ViewBag.Search = search; // щоб зберігати значення в полі пошуку
+            ViewBag.SortOrder = sortOrder;
 
             return View(products);
         }
