@@ -17,35 +17,43 @@ namespace CWA_asian_store.Controllers
             _productService = productService;
         }
 
-        // Отримує всі продукти через сервіс і повертає View для показу списку
-  
-        public async Task<IActionResult> Index(string? search, string? sortOrder)
+
+
+
+        public async Task<IActionResult> Index(string? search, string? sortOrder, int pageNumber = 1)
         {
-            var products = await _productService.GetAllAsync();
-
-            // Якщо є рядок пошуку — фільтруємо товари
-            if (!string.IsNullOrEmpty(search))
-            {
-                products = products
-                    .Where(p => p.Name.Contains(search, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-            }
-
-            switch (sortOrder)
-            {
-                case "asc":
-                    products = products.OrderBy(p => p.Price).ToList();
-                    break;
-                case "desc":
-                    products = products.OrderByDescending(p => p.Price).ToList();
-                    break;
-            }
-
-            ViewBag.Search = search; // щоб зберігати значення в полі пошуку
+            int pageSize = 5; // кількість товарів на сторінку
+            ViewBag.Search = search;
             ViewBag.SortOrder = sortOrder;
 
-            return View(products);
+            // Беремо всі товари
+            var products = await _productService.GetAllAsync();
+
+            // Фільтрація за назвою
+            if (!string.IsNullOrEmpty(search))
+                products = products.Where(p => p.Name.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            // Сортування
+            products = sortOrder switch
+            {
+                "asc" => products.OrderBy(p => p.Price).ToList(),
+                "desc" => products.OrderByDescending(p => p.Price).ToList(),
+                _ => products
+            };
+
+            // Пагінація
+            int totalItems = products.Count;
+            var paginatedProducts = products
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            ViewData["CurrentPage"] = pageNumber;
+            ViewData["TotalPages"] = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            return View(paginatedProducts);
         }
+
 
 
         // Відображає форму для додавання товару
