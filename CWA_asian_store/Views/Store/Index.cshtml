@@ -211,34 +211,40 @@
         @if ((int)ViewData["TotalPages"] > 1)
         {
             <div style="text-align:center; margin-top:20px;">
-                <!-- Попередня сторінка -->
-                <form asp-action="Index" method="get" style="display:inline-block; margin-right:10px;">
-                    <input type="hidden" name="search" value="@ViewBag.Search" />
-                    <input type="hidden" name="sortOrder" value="@ViewBag.SortOrder" />
-                    <input type="hidden" name="pageNumber" value="@(Math.Max((int)ViewData["CurrentPage"] - 1, 1))" />
-                    <button type="submit" style="padding:6px 12px; border-radius:6px; background:#f39c12; color:white; border:none;"
-                            @( (int)ViewData["CurrentPage"] == 1 ? "disabled" : "" )>
-                        ⬅️ Попередня
-                    </button>
-                </form>
 
-                <!-- Поточна сторінка -->
+                @if ((int)ViewData["CurrentPage"] > 1)
+                {
+                    <!-- Попередня сторінка -->
+                    <form asp-action="Index" method="get" style="display:inline-block; margin-right:10px;">
+                        <input type="hidden" name="search" value="@ViewBag.Search" />
+                        <input type="hidden" name="sortOrder" value="@ViewBag.SortOrder" />
+                        <input type="hidden" name="pageNumber" value="@(Math.Max((int)ViewData["CurrentPage"] - 1, 1))" />
+                        <button type="submit" style="padding:6px 12px; border-radius:6px; background:#f39c12; color:white; border:none;">
+                            ⬅️ 
+                        </button>
+                    </form>
+                }
+
                 <span style="margin:0 15px; font-weight:bold;">
                     Сторінка <strong>@ViewData["CurrentPage"]</strong> із <strong>@ViewData["TotalPages"]</strong>
                 </span>
 
-                <!-- Наступна сторінка -->
-                <form asp-action="Index" method="get" style="display:inline-block; margin-left:10px;">
-                    <input type="hidden" name="search" value="@ViewBag.Search" />
-                    <input type="hidden" name="sortOrder" value="@ViewBag.SortOrder" />
-                    <input type="hidden" name="pageNumber" value="@(Math.Min((int)ViewData["CurrentPage"] + 1, (int)ViewData["TotalPages"]))" />
-                    <button type="submit" style="padding:6px 12px; border-radius:6px; background:#f39c12; color:white; border:none;"
-                            @( (int)ViewData["CurrentPage"] == (int)ViewData["TotalPages"] ? "disabled" : "" )>
-                        Наступна ➡️
-                    </button>
-                </form>
+                @if ((int)ViewData["CurrentPage"] < (int)ViewData["TotalPages"])
+                {
+                    <!-- Наступна сторінка -->
+                    <form asp-action="Index" method="get" style="display:inline-block; margin-left:10px;">
+                        <input type="hidden" name="search" value="@ViewBag.Search" />
+                        <input type="hidden" name="sortOrder" value="@ViewBag.SortOrder" />
+                        <input type="hidden" name="pageNumber" value="@(Math.Min((int)ViewData["CurrentPage"] + 1, (int)ViewData["TotalPages"]))" />
+                        <button type="submit" style="padding:6px 12px; border-radius:6px; background:#f39c12; color:white; border:none;">
+                             ➡️
+                        </button>
+                    </form>
+                }
+
             </div>
         }
+
 
 
     </div>

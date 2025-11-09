@@ -26,20 +26,8 @@ namespace CWA_asian_store.Controllers
             ViewBag.Search = search;
             ViewBag.SortOrder = sortOrder;
 
-            // Беремо всі товари
-            var products = await _productService.GetAllAsync();
-
-            // Фільтрація за назвою
-            if (!string.IsNullOrEmpty(search))
-                products = products.Where(p => p.Name.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
-
-            // Сортування
-            products = sortOrder switch
-            {
-                "asc" => products.OrderBy(p => p.Price).ToList(),
-                "desc" => products.OrderByDescending(p => p.Price).ToList(),
-                _ => products
-            };
+            // Отримуємо відсортовані та відфільтровані товари
+            var products = await _productService.SearchAsync(search, sortOrder);
 
             // Пагінація
             int totalItems = products.Count;
@@ -53,6 +41,7 @@ namespace CWA_asian_store.Controllers
 
             return View(paginatedProducts);
         }
+
 
 
 

@@ -33,7 +33,33 @@ namespace CWA_asian_store.Services
             await _db.SaveChangesAsync();
         }
 
-      
+        public async Task<List<Product>> SearchAsync(string? search, string? sortOrder)
+        {
+            var productsQuery = _db.Products.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                // Очистка пробілів і приведення до нижнього регістру
+                string normalizedSearch = string.Join(" ", search
+                    .Trim()
+                    .Split(' ', StringSplitOptions.RemoveEmptyEntries))
+                    .ToLower();
+
+                productsQuery = productsQuery.Where(p =>
+                    EF.Functions.Like(p.Name.ToLower(), $"%{normalizedSearch}%"));
+            }
+
+            // Сортування
+            productsQuery = sortOrder switch
+            {
+                "asc" => productsQuery.OrderBy(p => p.Price),
+                "desc" => productsQuery.OrderByDescending(p => p.Price),
+                _ => productsQuery.OrderBy(p => p.Id)
+            };
+
+            return await productsQuery.ToListAsync();
+        }
+
 
 
         public async Task DeleteAsync(int id)

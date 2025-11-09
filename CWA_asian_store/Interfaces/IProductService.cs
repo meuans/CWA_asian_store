@@ -10,6 +10,8 @@ namespace CWA_asian_store.Interfaces
         Task<Product?> GetByIdAsync(int id);
         Task AddAsync(Product product);
         Task UpdateAsync(Product product);
+
+        Task<List<Product>> SearchAsync(string? search, string? sortOrder);
         Task DeleteAsync(int id);
 
     }
