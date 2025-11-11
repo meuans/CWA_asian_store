@@ -16,12 +16,14 @@ namespace CWA_asian_store.Data
 
         public void Seed()
             {
-                
-                modelBuilder.Entity<Product>().HasData(
-                    new Product { Id = 1, Name = "Рамен", Description = "Японський суп з локшиною", Price = 180, Category = "Японська кухня" },
-                    new Product { Id = 2, Name = "Кімчі", Description = "Корейська гостра капуста", Price = 120, Category = "Корейська кухня" },
-                    new Product { Id = 3, Name = "Пад Тай", Description = "Тайська локшина з куркою", Price = 210, Category = "Тайська кухня" },
-                    new Product { Id = 4, Name = "Суші-сет", Description = "Асорті ролів та суші", Price = 350, Category = "Японська кухня" }
+
+          
+
+            modelBuilder.Entity<Product>().HasData(
+                    new Product { Id = 1, Name = "Рамен", Description = "Японський суп з локшиною", Price = 180, CategoryId = 1 },
+                    new Product { Id = 2, Name = "Кімчі", Description = "Корейська гостра капуста", Price = 120, CategoryId = 2 },
+                    new Product { Id = 3, Name = "Пад Тай", Description = "Тайська локшина з куркою", Price = 210, CategoryId = 3 },
+                    new Product { Id = 4, Name = "Суші-сет", Description = "Асорті ролів та суші", Price = 350, CategoryId = 1 }
                 );
 
              
@@ -42,8 +44,17 @@ namespace CWA_asian_store.Data
                     new OrderItem { Id = 2, OrderId = 1, ProductId = 2, Quantity = 1, Price = 120 },
                     new OrderItem { Id = 3, OrderId = 2, ProductId = 4, Quantity = 1, Price = 350 }
                 );
-            }
-        
+
+
+                modelBuilder.Entity<Category>().HasData(
+                      new Category { Id = 1, Name = "Японська кухня" },
+                      new Category { Id = 2, Name = "Корейська кухня" },
+                      new Category { Id = 3, Name = "Тайська кухня" }
+
+                );
+
+        }
+
     }
 }
 

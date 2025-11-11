@@ -12,6 +12,8 @@ namespace CWA_asian_store.Interfaces
         Task UpdateAsync(Product product);
 
         Task<List<Product>> SearchAsync(string? search, string? sortOrder);
+
+        Task<List<Category>> GetAllCategoriesAsync();
         Task DeleteAsync(int id);
 
     }

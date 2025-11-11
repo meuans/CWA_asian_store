@@ -1,7 +1,9 @@
 ﻿using CWA_asian_store.Entity.Model;
 using CWA_asian_store.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace CWA_asian_store.Controllers
@@ -28,6 +30,7 @@ namespace CWA_asian_store.Controllers
 
             // Отримуємо відсортовані та відфільтровані товари
             var products = await _productService.SearchAsync(search, sortOrder);
+          
 
             // Пагінація
             int totalItems = products.Count;
@@ -45,23 +48,24 @@ namespace CWA_asian_store.Controllers
 
 
 
-        // Відображає форму для додавання товару
+
+
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var categories = await _productService.GetAllCategoriesAsync();
+            ViewBag.Categories = new SelectList(categories, "Id", "Name");
             return View();
         }
 
-        // Приймає дані з форми
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product)
         {
-            Console.WriteLine($"[DEBUG] Name={product.Name}, Desc={product.Description}, Category={product.Category}, Price={product.Price}");
-
             if (!ModelState.IsValid)
             {
-                Console.WriteLine("[DEBUG] ModelState INVALID");
+                var categories = await _productService.GetAllCategoriesAsync();
+                ViewBag.Categories = new SelectList(categories, "Id", "Name");
                 return View(product);
             }
 
@@ -76,8 +80,17 @@ namespace CWA_asian_store.Controllers
         {
             var product = await _productService.GetByIdAsync(id);
             if (product == null) return NotFound();
+
+            ViewBag.Categories = new SelectList(
+             await _productService.GetAllCategoriesAsync(),
+             "Id",
+             "Name",
+             product.CategoryId
+         );
+
             return View(product);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

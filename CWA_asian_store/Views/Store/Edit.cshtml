@@ -1,128 +1,143 @@
 ﻿@model CWA_asian_store.Entity.Model.Product
-
-@{
-    ViewData["Title"] = "Редагування товару";
-}
+<div asp-validation-summary="All" style="color:red"></div>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>@ViewData["Title"]</title>
+    <title>Редагувати товар</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #f8ede3, #fde2d2);
+            font-family: 'Roboto', Arial, sans-serif;
+            background: linear-gradient(135deg, #fefefe, #ffe6d6);
             margin: 0;
             padding: 0;
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .edit-container {
+        .container {
             background: #fff;
-            padding: 30px 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            width: 400px;
+            padding: 40px 50px;
+            border-radius: 16px;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+            width: 450px;
             max-width: 90%;
+            text-align: center;
+            transition: transform 0.3s;
         }
 
-        h2 {
-            text-align: center;
+            .container:hover {
+                transform: translateY(-5px);
+            }
+
+        h1 {
             color: #d35400;
             margin-bottom: 25px;
+            font-size: 28px;
         }
 
         label {
-            font-weight: bold;
             display: block;
-            margin-bottom: 5px;
-            color: #333;
+            margin: 12px 0 6px;
+            font-weight: 500;
+            text-align: left;
         }
 
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            transition: 0.3s;
-            font-size: 15px;
-        }
-
-            input:focus, textarea:focus {
-                border-color: #d35400;
-                outline: none;
-                box-shadow: 0 0 5px rgba(211,84,0,0.4);
-            }
-
-        button {
+        input, textarea, select {
             width: 100%;
             padding: 12px;
-            background: #d35400;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-
-            button:hover {
-                background: #e67e22;
-            }
-
-        .btn-back {
-            display: inline-block;
-            margin-top: 10px;
-            text-align: center;
-            width: 100%;
-            padding: 10px;
-            color: #d35400;
-            border: 2px solid #d35400;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
+            margin-bottom: 18px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 15px;
             transition: all 0.3s;
         }
 
-            .btn-back:hover {
-                background: #d35400;
-                color: white;
+            input:focus, textarea:focus, select:focus {
+                border-color: #d35400;
+                outline: none;
+                box-shadow: 0 0 8px rgba(211,84,0,0.3);
             }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background: url('data:image/svg+xml;utf8,<svg fill="gray" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right 12px center;
+            background-color: #fff;
+            background-size: 16px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #d35400, #e67e22);
+            color: #fff;
+            border: none;
+            padding: 14px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+            button:hover {
+                background: linear-gradient(135deg, #e67e22, #d35400);
+                transform: translateY(-2px);
+                box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+            }
+
+        a {
+            display: inline-block;
+            margin-top: 18px;
+            color: #d35400;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+            a:hover {
+                color: #e67e22;
+            }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
     </style>
 </head>
 <body>
-    <div class="edit-container">
-        <h2>✏️ Редагувати товар</h2>
+
+    <div class="container">
+        <h1>✏️ Редагувати товар</h1>
 
         <form asp-action="Edit" method="post">
+            @Html.AntiForgeryToken()
             <input type="hidden" asp-for="Id" />
 
-            <label asp-for="Name">Назва</label>
-            <input asp-for="Name" placeholder="Введіть назву товару" />
+            <label>Назва</label>
+            <input asp-for="Name" placeholder="Введіть назву товару" required />
 
-            <label asp-for="Description">Опис</label>
-            <textarea asp-for="Description" rows="4" placeholder="Введіть опис товару"></textarea>
+            <label>Опис</label>
+            <textarea asp-for="Description" placeholder="Введіть опис товару"></textarea>
 
-            <label asp-for="Category">Категорія</label>
-            <input asp-for="Category" placeholder="Наприклад: Суші, Рамен" />
+            <label>Категорія</label>
+            <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="custom-select">
+               
+            </select>
 
-            <label asp-for="Price">Ціна</label>
-            <input asp-for="Price" type="number" step="0.01" placeholder="Введіть ціну" />
+            <label>Ціна</label>
+            <input asp-for="Price" type="number" step="0.01" placeholder="0.00" min="0" required />
 
             <button type="submit">💾 Зберегти зміни</button>
         </form>
 
-        <a asp-action="Index" class="btn-back">↩️ Повернутися до списку</a>
+        <a asp-action="Index">← Повернутись до списку товарів</a>
     </div>
 
-    @section Scripts {
-        <partial name="_ValidationScriptsPartial" />
-    }
 </body>
 </html>

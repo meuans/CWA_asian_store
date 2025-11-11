@@ -18,6 +18,7 @@ namespace CWA_asian_store.Services
         public async Task<List<Product>> GetAllAsync() =>
             await _db.Products.ToListAsync();
 
+
         public async Task<Product?> GetByIdAsync(int id) =>
             await _db.Products.FindAsync(id);
 
@@ -35,18 +36,16 @@ namespace CWA_asian_store.Services
 
         public async Task<List<Product>> SearchAsync(string? search, string? sortOrder)
         {
-            var productsQuery = _db.Products.AsQueryable();
+            var productsQuery = _db.Products
+                .Include(p => p.Category)
+                .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(search))
             {
-                // Очистка пробілів і приведення до нижнього регістру
-                string normalizedSearch = string.Join(" ", search
-                    .Trim()
-                    .Split(' ', StringSplitOptions.RemoveEmptyEntries))
-                    .ToLower();
+                string normalizedSearch = search.Trim();
 
                 productsQuery = productsQuery.Where(p =>
-                    EF.Functions.Like(p.Name.ToLower(), $"%{normalizedSearch}%"));
+                    EF.Functions.Like(p.Name, $"%{normalizedSearch}%"));
             }
 
             // Сортування
@@ -60,6 +59,10 @@ namespace CWA_asian_store.Services
             return await productsQuery.ToListAsync();
         }
 
+        public async Task<List<Category>> GetAllCategoriesAsync()
+        {
+            return await _db.Categories.ToListAsync();
+        }
 
 
         public async Task DeleteAsync(int id)

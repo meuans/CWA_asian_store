@@ -22,6 +22,40 @@ namespace CWA_asian_store.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("CWA_asian_store.Entity.Model.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Японська кухня"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Корейська кухня"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Тайська кухня"
+                        });
+                });
+
             modelBuilder.Entity("CWA_asian_store.Entity.Model.Customer", b =>
                 {
                     b.Property<int>("Id")
@@ -51,14 +85,14 @@ namespace CWA_asian_store.Migrations
                         {
                             Id = 1,
                             Address = "м. Київ, вул. Хрещатик, 10",
-                            Email = "anna@example.com",
+                            Email = "anna@gmail.com",
                             FullName = "Анна Іваненко"
                         },
                         new
                         {
                             Id = 2,
                             Address = "м. Львів, вул. Шевченка, 25",
-                            Email = "oleg@example.com",
+                            Email = "oleg@gmail.com",
                             FullName = "Олег Петров"
                         });
                 });
@@ -168,9 +202,8 @@ namespace CWA_asian_store.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -186,13 +219,15 @@ namespace CWA_asian_store.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Products");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Category = "Японська кухня",
+                            CategoryId = 1,
                             Description = "Японський суп з локшиною",
                             Name = "Рамен",
                             Price = 180m
@@ -200,7 +235,7 @@ namespace CWA_asian_store.Migrations
                         new
                         {
                             Id = 2,
-                            Category = "Корейська кухня",
+                            CategoryId = 2,
                             Description = "Корейська гостра капуста",
                             Name = "Кімчі",
                             Price = 120m
@@ -208,7 +243,7 @@ namespace CWA_asian_store.Migrations
                         new
                         {
                             Id = 3,
-                            Category = "Тайська кухня",
+                            CategoryId = 3,
                             Description = "Тайська локшина з куркою",
                             Name = "Пад Тай",
                             Price = 210m
@@ -216,7 +251,7 @@ namespace CWA_asian_store.Migrations
                         new
                         {
                             Id = 4,
-                            Category = "Японська кухня",
+                            CategoryId = 1,
                             Description = "Асорті ролів та суші",
                             Name = "Суші-сет",
                             Price = 350m
@@ -251,6 +286,22 @@ namespace CWA_asian_store.Migrations
                     b.Navigation("Order");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("CWA_asian_store.Entity.Model.Product", b =>
+                {
+                    b.HasOne("CWA_asian_store.Entity.Model.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("CWA_asian_store.Entity.Model.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("CWA_asian_store.Entity.Model.Order", b =>
